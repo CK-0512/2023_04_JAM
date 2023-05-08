@@ -7,8 +7,6 @@ import java.util.Map;
 
 import com.KoreaIT.JAM.Article;
 import com.KoreaIT.JAM.dao.ArticleDao;
-import com.KoreaIT.JAM.util.DBUtil;
-import com.KoreaIT.JAM.util.SecSql;
 
 public class ArticleService {
 
@@ -45,5 +43,16 @@ public class ArticleService {
 		
 		return new Article(articleMap);
 	}
+	
+	public int getArticleCount(int id) {
+		return articleDao.getArticleCount(id);
+	}
 
+	public void doModify(int id, String title, String body) {
+		articleDao.doModify(id, title, body);
+	}
+
+	public void doDelete(int id) {
+		articleDao.doDelete(id);
+	}
 }
