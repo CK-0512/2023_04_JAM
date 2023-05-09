@@ -3,7 +3,7 @@ package com.KoreaIT.JAM.controller;
 import java.sql.Connection;
 import java.util.Scanner;
 
-import com.KoreaIT.JAM.Member;
+import com.KoreaIT.JAM.dto.Member;
 import com.KoreaIT.JAM.service.MemberService;
 import com.KoreaIT.JAM.session.Session;
 
@@ -18,6 +18,11 @@ public class MemberController {
 	}
 
 	public void doJoin() {
+		if (Session.isLogined()) {
+			System.out.println("로그아웃 후 이용해 주십시오.");
+			return;
+		}
+		
 		System.out.println("== 회원가입 ==");
 		
 		String loginId = null;
@@ -94,12 +99,12 @@ public class MemberController {
 	}
 
 	public void doLogin() {
-		System.out.println("== 로그인 ==");
-		
-		if (Session.loginedMemberId != -1) {
+		if (Session.isLogined()) {
 			System.out.println("로그아웃 후 이용해 주십시오.");
 			return;
 		}
+		
+		System.out.println("== 로그인 ==");
 		
 		while(true) {
 			System.out.printf("로그인 아이디 : ");
@@ -133,8 +138,22 @@ public class MemberController {
 			System.out.printf("%s님 환영합니다.\n", member.name);
 			
 			Session.loginedMemberId = member.id;
+			Session.loginedMember = member;
 			break;
 		}
 
+	}
+
+	public void doLogout() {
+		if (!Session.isLogined()) {
+			System.out.println("로그인 상태가 아닙니다.");
+			return;
+		}
+		
+		System.out.println("== 로그인 ==");
+		
+		System.out.println("로그아웃 되었습니다.");
+		
+		Session.loginedMemberId = -1;
 	}
 }

@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.JAM.Article;
+import com.KoreaIT.JAM.dto.Article;
 import com.KoreaIT.JAM.service.ArticleService;
+import com.KoreaIT.JAM.session.Session;
 
-public class ArticleController extends Controller {
+public class ArticleController {
 	
 	private Scanner sc;
 	private ArticleService articleService;
@@ -18,8 +19,13 @@ public class ArticleController extends Controller {
 	}
 
 	public void doWrite() {
+		if (!Session.isLogined()) {
+			System.out.println("로그인 후 이용해 주십시오.");
+			return;
+		}
+		
 		System.out.println("== 게시물 작성 ==");
-
+		
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -65,6 +71,11 @@ public class ArticleController extends Controller {
 	}
 
 	public void doModify(String cmd) {
+		if (!Session.isLogined()) {
+			System.out.println("로그인 후 이용해 주십시오.");
+			return;
+		}
+		
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
 		int articleCount = articleService.getArticleCount(id);
@@ -87,6 +98,11 @@ public class ArticleController extends Controller {
 	}
 
 	public void doDelete(String cmd) {
+		if (!Session.isLogined()) {
+			System.out.println("로그인 후 이용해 주십시오.");
+			return;
+		}
+		
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
 		int articleCount = articleService.getArticleCount(id);
