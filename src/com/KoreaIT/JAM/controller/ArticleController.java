@@ -7,7 +7,7 @@ import java.util.Scanner;
 import com.KoreaIT.JAM.Article;
 import com.KoreaIT.JAM.service.ArticleService;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	
 	private Scanner sc;
 	private ArticleService articleService;
