@@ -28,13 +28,16 @@ public class ArticleDao {
 		return DBUtil.insert(conn, sql);
 	}
 
-	public List<Map<String, Object>> getArticles() {
+	public List<Map<String, Object>> getArticles(String searchKeyword) {
 
 		SecSql sql = new SecSql();
 		sql.append("SELECT A.*, M.name AS WriterName");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
+		if  (searchKeyword.length() > 0) {
+			sql.append("WHERE title LIKE CONCAT('%', ? '%')", searchKeyword);
+		}
 		sql.append("ORDER BY id DESC;");
 
 		return DBUtil.selectRows(conn, sql);
@@ -77,9 +80,17 @@ public class ArticleDao {
 
 		SecSql sql = new SecSql();
 		sql.append("DELETE FROM article");
-		sql.append("WHERE id = ?", id);
+		sql.append("WHERE id = ?;", id);
 
 		DBUtil.delete(conn, sql);
 	}
 
+	public int increaseHit(int id) {
+		
+		SecSql sql = SecSql.from("UPDATE article");
+		sql.append("SET hit = hit + 1");
+		sql.append("WHERE id = ?;", id);
+		
+		return DBUtil.update(conn, sql);
+	}
 }
