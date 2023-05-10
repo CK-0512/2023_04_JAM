@@ -16,8 +16,8 @@ public class ArticleService {
 		this.articleDao = new ArticleDao(conn);
 	}
 
-	public int doWrite(String title, String body) {
-		return articleDao.doWrite(title, body);
+	public int doWrite(int loginedMemberId, String body, String title) {
+		return articleDao.doWrite(loginedMemberId, title, body);
 	}
 
 	public List<Article> getArticles() {
